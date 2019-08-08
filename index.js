@@ -1,29 +1,31 @@
-var express = require('express');
-var crypto = require('crypto');
-var app = express();
-var bodyParser = require('body-parser');
+const express = require('express');
+const crypto = require('crypto');
+const bodyParser = require('body-parser');
 
-// parse application/json
+//Parse application/json body
+const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
    extended: true
- }));
+}));
+
 
 //Handle POST request
 app.post('/', function(req, res){
-
-	console.log("\n<!------- ******** Signature header ******** -------!>\n" + JSON.stringify(req.header('X-Cliq-Signature')) + "\n<!------- ******** End of Signature header ******** -------!>");
-	console.log("\n<!------- ******** Request Body ******** -------!>\n" + JSON.stringify(req.body) + "\n<!------- ******** End of Request Body ******** -------!>");
+	
+	const body = req.body;
+	const bodyString = JSON.stringify(body)
+	const signature = req.header('X-Cliq-Signature');
+	console.log("\n<!------- ******** Signature header ******** -------!>\n" + signature + "\n<!------- ******** End of Signature header ******** -------!>");
+	console.log("\n<!------- ******** Request Body ******** -------!>\n" + bodyString + "\n<!------- ******** End of Request Body ******** -------!>");
 	console.log("\n<!------- ******** Given Params ******** -------!>");
-	for(param in req.body.params)
+	for(param in body.params)
 	{
 		console.log(param);
 	}
 	console.log("<!------- ******** End of Given Params ******** -------!>");
 
 	//Verifying signature
-	var body = req.body;
-	var signature = req.header('X-Cliq-Signature');
 	var publicKey = '-----BEGIN PUBLIC KEY-----\n'+
 					'MIIBIjANBgkqhkiG9w0BAQEFAAOC'+
 					'AQ8AMIIBCgKCAQEAlcHMHRBcRRnw'+
@@ -41,7 +43,7 @@ app.post('/', function(req, res){
 					'4ziahK12JgD1whutGGiQWwIDAQAB'+
 					'\n-----END PUBLIC KEY-----';
 	var verifier = crypto.createVerify('sha256');
-	verifier.update(JSON.stringify(body));
+	verifier.update(bodyString);
 	if(typeof signature !== "undefined")
 	{
 		var result = verifier.verify(publicKey, signature, 'base64');

@@ -1,7 +1,7 @@
 {
   "name": "simplecliqextension",
   "version": "1.0.0",
-  "description": "For testing cliq url invoke type extensions",
+  "description": "For testing cliq url invoke type extensions, returned a static response",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
