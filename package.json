@@ -1,0 +1,16 @@
+{
+  "name": "simplecliqextension",
+  "version": "1.0.0",
+  "description": "For testing cliq url invoke type extensions",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "navaneethakrishnan.sm",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "crypto": "^1.0.1",
+    "express": "^4.17.1"
+  }
+}
